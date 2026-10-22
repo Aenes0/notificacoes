@@ -111,6 +111,28 @@ struct Subscription {
 /// Dado do `wl_display.sync` que marca o fim da enumeração inicial (a geração da inscrição).
 pub struct SyncData(u32);
 
+/// "Cutuca" o compositor uma vez por geração: o `state` do handle chega no refresh dele, e o `done`
+/// só em um refresh posterior; um `wl_display.sync` acorda o laço do compositor para ele rodar.
+#[derive(Debug, Default)]
+struct Poke {
+    done: bool,
+}
+
+impl Poke {
+    fn reset(&mut self) {
+        self.done = false;
+    }
+
+    /// `true` se deve cutucar agora: ainda sem valor e ainda não cutucou nesta geração.
+    fn should(&mut self, value_pending: bool) -> bool {
+        if !value_pending || self.done {
+            return false;
+        }
+        self.done = true;
+        true
+    }
+}
+
 pub struct ToplevelWatch {
     qh: QueueHandle<State>,
     display: WlDisplay,
@@ -119,6 +141,7 @@ pub struct ToplevelWatch {
     generation: u32,
     sub: Option<Subscription>,
     windows: Windows<ObjectId>,
+    poke: Poke,
 }
 
 impl ToplevelWatch {
@@ -131,7 +154,7 @@ impl ToplevelWatch {
         if !available {
             eprintln!("notificacoes: sem {LIST} ou {INFO} v{INFO_MIN}+; a tela cheia não é detectada (cartões inteiros)");
         }
-        ToplevelWatch { qh, display, available, generation: 0, sub: None, windows: Windows::new() }
+        ToplevelWatch { qh, display, available, generation: 0, sub: None, windows: Windows::new(), poke: Poke::default() }
     }
 
     /// Inscreve (se ainda não está e os globais existem). O valor fica `None` até o primeiro `done`.
@@ -158,6 +181,7 @@ impl ToplevelWatch {
             }
         };
         self.windows.clear();
+        self.poke.reset();
         self.display.sync(&self.qh, SyncData(generation));
         self.sub = Some(Subscription { list, info, handles: Vec::new() });
     }
@@ -321,12 +345,18 @@ impl Dispatch<ZcosmicToplevelHandleV1, Option<ObjectId>> for State {
         event: zcosmic_toplevel_handle_v1::Event,
         key: &Option<ObjectId>,
         _: &Connection,
-        _: &QueueHandle<State>,
+        qh: &QueueHandle<State>,
     ) {
         let (zcosmic_toplevel_handle_v1::Event::State { state: raw }, Some(key)) = (event, key) else { return };
         let (activated, fullscreen) = parse_states(&raw);
         if let Some(ui) = state.ui_mut() {
-            ui.toplevels.windows.set_state(key, activated, fullscreen);
+            let watch = &mut ui.toplevels;
+            watch.windows.set_state(key, activated, fullscreen);
+            // O `done` global só sai num refresh posterior do compositor, que num desktop parado não
+            // roda sozinho: o sync acorda o laço dele. O handler do sync não faz nada com janelas na lista.
+            if watch.sub.is_some() && watch.poke.should(watch.windows.value().is_none()) {
+                watch.display.sync(qh, SyncData(watch.generation));
+            }
         }
     }
 }
@@ -371,6 +401,16 @@ fn parse_states(raw: &[u8]) -> (bool, bool) {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn poke_fires_once_per_generation_and_only_while_pending() {
+        let mut p = Poke::default();
+        assert!(!p.should(false), "com valor não há o que cutucar");
+        assert!(p.should(true), "primeiro state sem valor cutuca");
+        assert!(!p.should(true), "só uma vez na geração");
+        p.reset();
+        assert!(p.should(true), "nova geração cutuca de novo");
+    }
 
     #[test]
     fn fullscreen_needs_activated_and_fullscreen_same_window() {

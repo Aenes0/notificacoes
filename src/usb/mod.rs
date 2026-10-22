@@ -111,7 +111,10 @@ impl Usb {
     /// (só o mapa é atualizado). Comparação na hora de cada evento, sem timer.
     pub fn on_sleep(&mut self, sleeping: bool, now: Instant) {
         self.sleeping = sleeping;
-        if !sleeping {
+        if sleeping {
+            // Conexão que ainda esperava as dicas de input não pode ser anunciada ao acordar.
+            self.adds.clear();
+        } else {
             self.quiet_until = Some(now + RESUME_QUIET);
         }
     }
@@ -461,6 +464,21 @@ mod tests {
         assert_eq!(out.len(), 2, "{out:?}");
         assert!(out.contains(&one(UsbKind::Armazenamento, Change::Removed, "SanDisk Ultra Fit")[0]));
         assert!(out.contains(&one(UsbKind::Generico, Change::Added, "8BitDo IDLE")[0]));
+    }
+
+    #[test]
+    fn add_pending_when_suspending_is_not_announced_on_wake() {
+        let cfg = Config::default();
+        let mut usb = Usb::with_present(vec![], vec![]);
+        let t = Instant::now();
+        usb.on_event(UdevEvent::UsbAdd(hid_pad("1-1.1")), t, &cfg);
+        // Suspende antes do prazo da conexão.
+        usb.on_sleep(true, t + Duration::from_millis(50));
+        let woke = t + Duration::from_secs(600);
+        usb.on_sleep(false, woke);
+        assert_eq!(usb.deadline(), None, "conexão pendente sobreviveu à suspensão");
+        let out = usb.flush(woke + RESUME_QUIET + GROUP_WINDOW, &cfg, NOT_VISIBLE);
+        assert!(out.is_empty(), "anunciou ao acordar: {out:?}");
     }
 
     #[test]

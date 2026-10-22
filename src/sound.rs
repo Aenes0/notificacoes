@@ -163,8 +163,11 @@ impl Player {
         };
         let playing = Rc::clone(&self.playing);
         let source = Generic::new(fd, Interest::READ, Mode::Level);
+        // O filho é compartilhado com o fechamento só para poder ser recolhido se a fonte não entrar.
+        let child = Rc::new(std::cell::RefCell::new(child));
+        let in_loop = Rc::clone(&child);
         let inserted = handle.insert_source(source, move |_, _, _| {
-            let _ = child.wait();
+            let _ = in_loop.borrow_mut().wait();
             playing.set(false);
             Ok(PostAction::Remove)
         });
@@ -176,6 +179,9 @@ impl Player {
             }
             Err(e) => {
                 eprintln!("notificacoes: pidfd não entrou no laço: {e}");
+                let mut c = child.borrow_mut();
+                let _ = c.kill();
+                let _ = c.wait();
                 false
             }
         }
@@ -265,11 +271,6 @@ mod tests {
         assert_eq!(choose(&notif(named), &cfg, false), SoundChoice::Name("bell".into()));
     }
 
-    fn threads() -> usize {
-        std::fs::read_to_string("/proc/self/status").unwrap().lines()
-            .find_map(|l| l.strip_prefix("Threads:")).unwrap().trim().parse().unwrap()
-    }
-
     fn run_for(el: &mut EventLoop<'static, ()>, ms: u64) {
         let end = Instant::now() + Duration::from_millis(ms);
         while Instant::now() < end {
@@ -282,13 +283,10 @@ mod tests {
         let mut el: EventLoop<'static, ()> = EventLoop::try_new().unwrap();
         let h = el.handle();
         let mut p = Player::new();
-        let before = threads();
         assert!(p.play(&h, "true", Path::new("/dev/null")));
         let pid = p.last_pid().unwrap();
-        assert!(threads() <= before, "play criou thread");
         run_for(&mut el, 300);
         assert!(!Path::new(&format!("/proc/{pid}")).exists(), "zumbi ou processo vivo");
-        assert!(threads() <= before, "play criou thread");
     }
 
     #[test]

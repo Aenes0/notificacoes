@@ -15,7 +15,7 @@
 # `pkill -x cosmic-notifications` não casa: o nome do processo é cortado em 15 caracteres.
 
 pkgname=cosmic-notifications-aenes
-pkgver=0.2.0
+pkgver=0.2.1
 pkgrel=1
 pkgdesc='COSMIC notification daemon, Rust rewrite (x86-64-v3)'
 arch=(x86_64)

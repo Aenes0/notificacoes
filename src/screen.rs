@@ -29,7 +29,9 @@ const STACK_BASE: i32 = 24;
 const STACK_RIGHT: i32 = 24;
 const STACK_GAP: i32 = 8;
 /// Quanto um cartão de app novo espera o primeiro `done` da inscrição de janelas antes de aparecer.
-const PRIVACY_WAIT: Duration = Duration::from_millis(100);
+/// O cosmic-comp manda o `state` no próximo refresh e o `done` global em outro depois (cada um
+/// estrangulado a 150 ms): menos que ~300 ms faz o cartão sair redigido e virar inteiro em seguida.
+const PRIVACY_WAIT: Duration = Duration::from_millis(400);
 
 /// Um cartão na tela. O `static_pm` não tem a barra: cada quadro é uma cópia dele + `draw_bar`.
 pub struct CardState {
@@ -91,6 +93,8 @@ pub struct WaylandScreen {
     privacy_timer: Option<RegistrationToken>,
     /// O prazo venceu sem `done` nesta inscrição: os próximos não esperam (saem redigidos).
     privacy_timed_out: bool,
+    /// Quando a espera começou (só para o log de `NOTIFICACOES_DEBUG=1`).
+    privacy_since: Option<Instant>,
 }
 
 impl WaylandScreen {
@@ -115,6 +119,7 @@ impl WaylandScreen {
             deferred: Vec::new(),
             privacy_timer: None,
             privacy_timed_out: false,
+            privacy_since: None,
         }
     }
 
@@ -313,6 +318,7 @@ impl WaylandScreen {
             self.ui.close(SurfaceKey::Pill);
         }
         self.deferred.retain(|(d, _)| *d != id);
+        self.cancel_privacy_timer_if_idle();
         if self.pointer.is_some_and(|(p, ..)| p == id) {
             // A superfície some sem `Leave`.
             self.pointer = None;
@@ -555,7 +561,10 @@ impl WaylandScreen {
                 state.on_privacy_deadline();
                 TimeoutAction::Drop
             }) {
-                Ok(token) => self.privacy_timer = Some(token),
+                Ok(token) => {
+                    self.privacy_timer = Some(token);
+                    self.privacy_since = Some(Instant::now());
+                }
                 Err(e) => {
                     eprintln!("notificacoes: o timer da privacidade não registrou: {}; o cartão sai redigido", e.error);
                     self.privacy_timed_out = true;
@@ -566,6 +575,15 @@ impl WaylandScreen {
         self.deferred.retain(|(d, _)| *d != id);
         self.deferred.push((id, total));
         true
+    }
+
+    /// Nada mais espera: o prazo não precisa acordar o laço.
+    fn cancel_privacy_timer_if_idle(&mut self) {
+        if self.deferred.is_empty()
+            && let Some(token) = self.privacy_timer.take()
+        {
+            self.handle.remove(token);
+        }
     }
 
     /// Sem cartão de app na tela (nem esperando), a inscrição de janelas cai (zero acordadas).
@@ -584,9 +602,16 @@ impl WaylandScreen {
     /// redesenha os cartões de app cuja exposição mudou (mesma contagem).
     fn refresh_privacy(&mut self, now: Instant, store: &Store) {
         if !self.must_wait() && !self.deferred.is_empty() {
+            if let Some(since) = self.privacy_since.take()
+                && self.ui.debug_enabled()
+                && !self.privacy_timed_out
+            {
+                eprintln!("notificacoes: privacidade: primeiro done em {} ms", since.elapsed().as_millis());
+            }
             for (id, total) in std::mem::take(&mut self.deferred) {
                 self.show(id, total, now, store);
             }
+            self.cancel_privacy_timer_if_idle();
             let stack = store.stack();
             self.cards.sort_by_key(|c| stack.iter().position(|s| *s == c.id).unwrap_or(usize::MAX));
             self.restack();
@@ -854,5 +879,17 @@ mod tests {
         cache.load(&with_image(1, ImageHint::File(fixture("print.png"))));
         cache.remove(1);
         assert!(cache.get(1).is_none());
+    }
+}
+
+#[cfg(test)]
+mod privacy_wait_tests {
+    use super::*;
+
+    #[test]
+    fn privacy_wait_covers_the_compositor_done_latency() {
+        // O cosmic-comp manda o `state` no próximo refresh (até 150 ms) e o `done` global num refresh
+        // posterior sem mudanças (mais 150 ms): o prazo precisa passar de dois refreshes.
+        assert!(PRIVACY_WAIT >= Duration::from_millis(400), "{PRIVACY_WAIT:?}");
     }
 }

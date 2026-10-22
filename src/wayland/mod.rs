@@ -87,6 +87,11 @@ pub struct Ui {
 }
 
 impl Ui {
+    /// `NOTIFICACOES_DEBUG=1`.
+    pub fn debug_enabled(&self) -> bool {
+        self.debug
+    }
+
     /// Conecta ao compositor, liga os globais e põe a fila Wayland no calloop.
     pub fn connect(handle: &LoopHandle<'static, State>) -> Result<Ui, Box<dyn std::error::Error>> {
         let conn = Connection::connect_to_env()?;
