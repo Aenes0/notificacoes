@@ -1,0 +1,109 @@
+warning: function `stack_margins` is never used
+  --> src/presenter.rs:11:8
+   |
+11 | pub fn stack_margins(card_heights: &[u32], base: i32, gap: i32, pad_b: i32) -> Vec<i32> {
+   |        ^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `CardTiming` is never constructed
+  --> src/presenter.rs:18:12
+   |
+18 | pub struct CardTiming {
+   |            ^^^^^^^^^^
+
+warning: function `next_wake` is never used
+  --> src/presenter.rs:26:8
+   |
+26 | pub fn next_wake(cards: &[CardTiming], now: Instant) -> Option<Instant> {
+   |        ^^^^^^^^^
+
+warning: function `apply_alpha` is never used
+  --> src/presenter.rs:33:8
+   |
+33 | pub fn apply_alpha(pm: &mut Pixmap, alpha: f32) {
+   |        ^^^^^^^^^^^
+
+warning: fields `bar_device_px` and `shown_at` are never read
+  --> src/presenter.rs:21:9
+   |
+18 | pub struct CardTiming {
+   |            ---------- fields in this struct
+...
+21 |     pub bar_device_px: u32,
+   |         ^^^^^^^^^^^^^
+22 |     pub shown_at: Instant,
+   |         ^^^^^^^^
+   |
+   = note: `CardTiming` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `notificacoes` (bin "notificacoes") generated 4 warnings
+warning: `notificacoes` (bin "notificacoes" test) generated 1 warning
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s
+     Running unittests src/main.rs (target/debug/deps/notificacoes-f9da90c19ec37484)
+
+running 7 tests
+test presenter::tests::no_cards_no_wake ... ok
+test presenter::tests::fade_end_wakes_even_with_long_bar_step ... FAILED
+test presenter::tests::apply_alpha_scales_premultiplied_channels ... FAILED
+test presenter::tests::next_wake_is_min_of_deadline_and_bar_step ... FAILED
+test presenter::tests::paused_card_contributes_no_wake ... FAILED
+test presenter::tests::removing_card_recomputes_margins ... FAILED
+test presenter::tests::stack_margins_newest_at_bottom ... FAILED
+
+failures:
+
+---- presenter::tests::fade_end_wakes_even_with_long_bar_step stdout ----
+
+thread 'presenter::tests::fade_end_wakes_even_with_long_bar_step' (587057) panicked at src/presenter.rs:95:65:
+called `Option::unwrap()` on a `None` value
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- presenter::tests::apply_alpha_scales_premultiplied_channels stdout ----
+
+thread 'presenter::tests::apply_alpha_scales_premultiplied_channels' (587056) panicked at src/presenter.rs:119:9:
+assertion `left == right` failed
+  left: [200, 100, 50, 200, 255, 255, 255, 255]
+ right: [100, 50, 25, 100, 128, 128, 128, 128]
+
+---- presenter::tests::next_wake_is_min_of_deadline_and_bar_step stdout ----
+
+thread 'presenter::tests::next_wake_is_min_of_deadline_and_bar_step' (587058) panicked at src/presenter.rs:69:9:
+assertion `left == right` failed
+  left: None
+ right: Some(Instant { tv_sec: 25100, tv_nsec: 595375075 })
+
+---- presenter::tests::paused_card_contributes_no_wake stdout ----
+
+thread 'presenter::tests::paused_card_contributes_no_wake' (587060) panicked at src/presenter.rs:87:9:
+assertion `left == right` failed
+  left: None
+ right: Some(Instant { tv_sec: 25101, tv_nsec: 76660605 })
+
+---- presenter::tests::removing_card_recomputes_margins stdout ----
+
+thread 'presenter::tests::removing_card_recomputes_margins' (587061) panicked at src/presenter.rs:59:9:
+assertion `left == right` failed
+  left: []
+ right: [0, 108, 196]
+
+---- presenter::tests::stack_margins_newest_at_bottom stdout ----
+
+thread 'presenter::tests::stack_margins_newest_at_bottom' (587062) panicked at src/presenter.rs:53:9:
+assertion `left == right` failed
+  left: []
+ right: [0, 108]
+
+
+failures:
+    presenter::tests::apply_alpha_scales_premultiplied_channels
+    presenter::tests::fade_end_wakes_even_with_long_bar_step
+    presenter::tests::next_wake_is_min_of_deadline_and_bar_step
+    presenter::tests::paused_card_contributes_no_wake
+    presenter::tests::removing_card_recomputes_margins
+    presenter::tests::stack_margins_newest_at_bottom
+
+test result: FAILED. 1 passed; 6 failed; 0 ignored; 0 measured; 144 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--bin notificacoes`

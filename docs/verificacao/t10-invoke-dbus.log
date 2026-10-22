@@ -1,0 +1,13 @@
+signal time=1792632886.226688 sender=org.freedesktop.DBus -> destination=:1.6956 serial=4294967295 path=/org/freedesktop/DBus; interface=org.freedesktop.DBus; member=NameAcquired
+   string ":1.6956"
+signal time=1792632886.226743 sender=org.freedesktop.DBus -> destination=:1.6956 serial=4294967295 path=/org/freedesktop/DBus; interface=org.freedesktop.DBus; member=NameLost
+   string ":1.6956"
+signal time=1792632888.231334 sender=:1.6953 -> destination=(null destination) serial=9 path=/org/freedesktop/Notifications; interface=org.freedesktop.Notifications; member=ActivationToken
+   uint32 1
+   string "iFwFS8WqQy0a4aOxKdpV21pmdXvYw9Sv"
+signal time=1792632888.231360 sender=:1.6953 -> destination=(null destination) serial=10 path=/org/freedesktop/Notifications; interface=org.freedesktop.Notifications; member=ActionInvoked
+   uint32 1
+   string "b"
+signal time=1792632888.231377 sender=:1.6953 -> destination=(null destination) serial=11 path=/org/freedesktop/Notifications; interface=org.freedesktop.Notifications; member=NotificationClosed
+   uint32 1
+   uint32 2

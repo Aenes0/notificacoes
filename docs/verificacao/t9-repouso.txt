@@ -1,0 +1,17 @@
+    Finished `release` profile [optimized] target(s) in 0.03s
+notificacoes PID 604719, log em /home/alexandre/.cache/notificacoes-dev.log
+PID=604719
+PIDFD=yes
+Comm=notificacoes
+CommandLine=target/release/notificacoes
+ctx_30s=0
+VmRSS:	    7836 kB
+Threads:	1
+notificacoes (PID 604719) encerrado
+cosmic-notifications oficial (PID 383070) encerrado; a sessão o religa
+PID=604907
+PIDFD=yes
+Comm=cosmic-notifica
+CommandLine=cosmic-notifications
+---log
+notificacoes: NameAcquired org.freedesktop.Notifications

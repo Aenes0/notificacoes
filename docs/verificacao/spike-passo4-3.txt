@@ -1,0 +1,22 @@
+as 1 ":1.5938"
+:1.41 = pid 1526 fcitx5
+nome=morto
+--- status apos matar nome:
+Failed to get credentials: No such device or address
+oficial=1514
+painel_antes=1515
+pkill: o padrão que pesquisa por nomes de processo maiores que 15 caracteres vai resultar em zero correspondências
+Tente a opção "pkill -f" para corresponder com a linha de comando completa.
+--- status 3 s apos matar oficial:
+Failed to get credentials: No such device or address
+oficial_novo=1514
+painel_depois=1515
+painel_antes=1515
+oficial_antes=1514
+dono apos 1s
+PID=356529
+PIDFD=yes
+Comm=cosmic-notifica
+CommandLine=cosmic-notifications
+oficial_novo=356529
+painel_depois=356513

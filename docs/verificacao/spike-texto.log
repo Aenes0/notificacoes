@@ -1,0 +1,29 @@
+ssss "cosmic-notifications" "System76" "1.10.0" "1.2"
+nome nao roda
+texto: rss_kb_antes = 3144
+texto: rss_kb_depois_fontsystem = 4268
+texto: ms_fontsystem = 18.4
+texto: faces_no_indice = 889
+texto: ms_compor_rasterizar = 19.6
+texto: rss_kb_depois_render = 9288
+texto: pixels_cromaticos = 88
+texto: fontes_usadas = ["Open Sans", "Noto Color Emoji", "Noto Sans Arabic", "Noto Sans CJK SC", "Noto Sans Devanagari"]
+texto: gravado docs/verificacao/spike-texto.png
+texto: rss_kb_antes = 3148
+texto: rss_kb_depois_fontsystem = 4332
+texto: ms_fontsystem = 18.7
+texto: ms_compor_rasterizar = 11.3
+texto: rss_kb_depois_render = 9216
+
+texto: rss_kb_antes = 3068
+texto: rss_kb_depois_fontsystem = 4332
+texto: ms_fontsystem = 18.9
+texto: ms_compor_rasterizar = 11.0
+texto: rss_kb_depois_render = 9328
+
+texto: rss_kb_antes = 3232
+texto: rss_kb_depois_fontsystem = 4404
+texto: ms_fontsystem = 18.1
+texto: ms_compor_rasterizar = 10.4
+texto: rss_kb_depois_render = 9124
+

@@ -1,0 +1,3 @@
+#!/bin/sh
+echo "wl-copy $*" >> "$STUB_LOG"
+cat > /dev/null

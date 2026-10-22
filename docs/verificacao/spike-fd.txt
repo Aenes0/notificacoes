@@ -1,0 +1,8 @@
+pid_oficial=1514
+DAEMON_NOTIFICATIONS_FD=23
+lrwx------ 1 alexandre alexandre 64 21 out 15:55 /proc/1514/fd/23 -> socket:[36807]
+PID=1514
+PIDFD=yes
+Comm=cosmic-notifica
+CommandLine=cosmic-notifications
+painel=1515

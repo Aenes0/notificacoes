@@ -1,0 +1,45 @@
+signal time=1792634245.171225 sender=org.freedesktop.DBus -> destination=:1.7524 serial=4294967295 path=/org/freedesktop/DBus; interface=org.freedesktop.DBus; member=NameAcquired
+   string ":1.7524"
+signal time=1792634245.171278 sender=org.freedesktop.DBus -> destination=:1.7524 serial=4294967295 path=/org/freedesktop/DBus; interface=org.freedesktop.DBus; member=NameLost
+   string ":1.7524"
+method call time=1792634245.730906 sender=:1.7525 -> destination=:1.7381 serial=10 path=/org/freedesktop/Notifications; interface=org.freedesktop.Notifications; member=Notify
+   string "Captura de tela"
+   uint32 0
+   string ""
+   string "Captura copiada"
+   string "800×450 · salvo em Screenshots"
+   array [
+      string "default"
+      string "Editar"
+      string "editar"
+      string "Editar"
+      string "folder-open-symbolic"
+      string "Abrir pasta"
+   ]
+   array [
+      dict entry(
+         string "image-path"
+         variant             string "/tmp/tmp.bQiNAYfEc4/h/Imagens/Screenshots/Captura_2026-10-21_22-57-25.png"
+      )
+      dict entry(
+         string "category"
+         variant             string "screen-capture"
+      )
+      dict entry(
+         string "sound-name"
+         variant             string "screen-capture"
+      )
+      dict entry(
+         string "action-icons"
+         variant             boolean true
+      )
+      dict entry(
+         string "urgency"
+         variant             byte 1
+      )
+      dict entry(
+         string "sender-pid"
+         variant             int64 665636
+      )
+   ]
+   int32 20000

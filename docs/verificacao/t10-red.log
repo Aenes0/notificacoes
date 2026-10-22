@@ -1,0 +1,41 @@
+   Compiling notificacoes v0.1.0 (/home/alexandre/Projetos/notificacoes)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.32s
+     Running unittests src/main.rs (target/debug/deps/notificacoes-f10ed1347a95dda3)
+
+running 10 tests
+test presenter::tests::apply_alpha_scales_premultiplied_channels ... ok
+test presenter::tests::fade_end_wakes_even_with_long_bar_step ... ok
+test presenter::tests::next_wake_is_min_of_deadline_and_bar_step ... ok
+test presenter::tests::click_needs_press_and_release_same_hit ... FAILED
+test presenter::tests::no_cards_no_wake ... ok
+test presenter::tests::paused_card_contributes_no_wake ... ok
+test presenter::tests::leave_cancels_click ... ok
+test presenter::tests::removing_card_recomputes_margins ... ok
+test presenter::tests::stack_margins_newest_at_bottom ... ok
+test presenter::tests::hit_maps_points_to_regions ... FAILED
+
+failures:
+
+---- presenter::tests::click_needs_press_and_release_same_hit stdout ----
+
+thread 'presenter::tests::click_needs_press_and_release_same_hit' (612664) panicked at src/presenter.rs:202:9:
+assertion `left == right` failed
+  left: None
+ right: Some(Close)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- presenter::tests::hit_maps_points_to_regions stdout ----
+
+thread 'presenter::tests::hit_maps_points_to_regions' (612666) panicked at src/presenter.rs:187:9:
+assertion `left == right` failed
+  left: None
+ right: Some(Close)
+
+
+failures:
+    presenter::tests::click_needs_press_and_release_same_hit
+    presenter::tests::hit_maps_points_to_regions
+
+test result: FAILED. 8 passed; 2 failed; 0 ignored; 0 measured; 166 filtered out; finished in 0.09s
+
+error: test failed, to rerun pass `--bin notificacoes`

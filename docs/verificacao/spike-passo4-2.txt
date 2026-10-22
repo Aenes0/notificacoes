@@ -1,0 +1,16 @@
+nome_pid=356307
+PID=356307
+PIDFD=yes
+Comm=nome
+CommandLine=tools/spike/target/release/nome
+notify-send=0
+oficial=1514
+nome: unique_name=:1.5938 pid=356307
+nome: RequestName(org.freedesktop.Notifications, allow_replacement=false, replace_existing=true, do_not_queue=false) = PrimaryOwner
+nome: sinal org.freedesktop.DBus.NameAcquired ["\":1.5938\""]
+nome: sinal org.freedesktop.DBus.NameAcquired ["\"org.freedesktop.Notifications\""]
+nome: chamada org.freedesktop.Notifications.GetCapabilities de :1.41 []
+nome: chamada org.freedesktop.Notifications.GetServerInformation de :1.5940 []
+nome: chamada org.freedesktop.Notifications.GetServerInformation de :1.5940 []
+nome: chamada org.freedesktop.Notifications.Notify de :1.5940 ["\"notify-send\"", "0", "\"\"", "\"spike\"", "\"ok\"", "[]", "{\"urgency\": Variant(1), \"sender-pid\": Variant(356312)}", "-1"]
+nome: Notify -> id 1

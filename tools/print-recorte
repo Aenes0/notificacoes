@@ -1,0 +1,51 @@
+#!/bin/sh
+# Ferramenta de recorte estilo Windows (Win+Shift+S) para COSMIC/Wayland
+# Arraste e solte: salva em ~/Imagens/Screenshots e copia para a área de transferência.
+# Depois manda uma notificação com a miniatura ao daemon de notificações (org.freedesktop.Notifications):
+# clicar na imagem ou em "Editar" abre o Satty para ajustar/colorir; o botão de pasta abre a pasta.
+
+LOG="$HOME/.cache/print-recorte.log"
+exec 2>>"$LOG"; echo "[$(date)] chamado" >&2
+
+pkill -x slurp && exit 0   # apertar de novo cancela uma seleção aberta
+exec < /dev/null   # slurp lê áreas do stdin se não for terminal; o COSMIC deixa um pipe aberto e ele travava
+
+DIR="$(xdg-user-dir PICTURES 2>/dev/null || echo "$HOME/Pictures")/Screenshots"
+mkdir -p "$DIR"
+FILE="$DIR/Captura_$(date +%Y-%m-%d_%H-%M-%S).png"
+
+
+GEOM="$(slurp -b 00000066 -c 3daee9ff -s 3daee922 -w 2 < /dev/null)" || exit 0   # Esc cancela
+echo "geom=$GEOM" >&2
+
+grim -g "$GEOM" "$FILE" || { notify-send -u critical "Captura falhou" "grim não conseguiu capturar"; exit 1; }
+wl-copy --type image/png < "$FILE"
+
+# Largura e altura vêm do cabeçalho PNG (IHDR: bytes 16-23, big-endian).
+set -- $(od -An -tu1 -j16 -N8 "$FILE")
+W=$(( ($1 << 24) + ($2 << 16) + ($3 << 8) + $4 ))
+H=$(( ($5 << 24) + ($6 << 16) + ($7 << 8) + $8 ))
+
+# Ajudante em segundo plano: `notify-send --wait` fica escutando a notificação e imprime a chave da ação
+# clicada. O -t vale também como prazo da espera (o daemon ignora o valor na exibição); expirar não emite
+# sinal, então é o prazo que encerra o ajudante.
+setsid -f sh -c '
+  FILE=$1; DIR=$2; W=$3; H=$4; LOG=$5
+  acao=$(notify-send --app-name="Captura de tela" --icon=applets-screenshooter \
+      --expire-time="${PRINT_RECORTE_PRAZO_MS:-600000}" \
+      --category=screen-capture \
+      --hint=string:image-path:"$FILE" --hint=boolean:action-icons:true \
+      --hint=string:sound-name:screen-capture \
+      --action=default=Editar --action=editar=Editar --action=folder-open-symbolic="Abrir pasta" \
+      --wait "Captura copiada" "${W}×${H} · salvo em Screenshots") \
+    || { echo "[$(date)] notify-send falhou" >&2; exit 0; }
+  case "$acao" in
+    default|editar)
+      setsid -f satty --filename "$FILE" --output-filename "$FILE" --initial-tool arrow \
+          --copy-command wl-copy --actions-on-enter save-to-clipboard,save-to-file,exit \
+          --early-exit all --disable-notifications \
+        || echo "[$(date)] satty não abriu" >&2 ;;
+    folder-open-symbolic)
+      setsid -f xdg-open "$DIR" || echo "[$(date)] xdg-open não abriu" >&2 ;;
+  esac
+' print-recorte-ajudante "$FILE" "$DIR" "$W" "$H" "$LOG" < /dev/null > /dev/null 2>> "$LOG"

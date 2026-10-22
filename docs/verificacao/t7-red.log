@@ -1,0 +1,132 @@
+   Compiling notificacoes v0.1.0 (/home/alexandre/Projetos/notificacoes)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.48s
+     Running unittests src/main.rs (target/debug/deps/notificacoes-f9da90c19ec37484)
+
+running 15 tests
+test icons::tests::app_name_matches_name_or_wm_class ... FAILED
+test icons::tests::app_icon_order_and_fallbacks ... FAILED
+test icons::tests::desktop_action_icon_is_ignored ... FAILED
+test icons::tests::desktop_entry_hint_wins ... FAILED
+test icons::tests::absolute_path_and_file_uri ... FAILED
+test icons::tests::icon_theme_from_cosmic_config ... FAILED
+test icons::tests::flatpak_style_suffix_matches ... FAILED
+test icons::tests::lru_is_bounded ... FAILED
+test icons::tests::exact_size_png_found ... FAILED
+test icons::tests::missing_icon_is_none ... ok
+test icons::tests::inherits_then_hicolor ... FAILED
+test icons::tests::png_is_scaled_to_fit ... FAILED
+test icons::tests::svg_rasterized_to_requested_size ... FAILED
+test icons::tests::symbolic_is_tinted ... FAILED
+test icons::tests::threshold_and_distance_pick_closest ... FAILED
+
+failures:
+
+---- icons::tests::app_name_matches_name_or_wm_class stdout ----
+
+thread 'icons::tests::app_name_matches_name_or_wm_class' (517330) panicked at src/icons.rs:69:9:
+assertion `left == right` failed
+  left: None
+ right: Some("app-a")
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- icons::tests::app_icon_order_and_fallbacks stdout ----
+
+thread 'icons::tests::app_icon_order_and_fallbacks' (517329) panicked at src/icons.rs:131:71:
+called `Option::unwrap()` on a `None` value
+
+---- icons::tests::desktop_action_icon_is_ignored stdout ----
+
+thread 'icons::tests::desktop_action_icon_is_ignored' (517331) panicked at src/icons.rs:76:9:
+assertion `left == right` failed
+  left: None
+ right: Some("brave-browser")
+
+---- icons::tests::desktop_entry_hint_wins stdout ----
+
+thread 'icons::tests::desktop_entry_hint_wins' (517332) panicked at src/icons.rs:66:9:
+assertion `left == right` failed
+  left: None
+ right: Some("app-a")
+
+---- icons::tests::absolute_path_and_file_uri stdout ----
+
+thread 'icons::tests::absolute_path_and_file_uri' (517328) panicked at src/icons.rs:88:9:
+assertion `left == right` failed
+  left: None
+ right: Some("/home/alexandre/Projetos/notificacoes/tests/fixtures/icons/Teste/48x48/apps/app-a.png")
+
+---- icons::tests::icon_theme_from_cosmic_config stdout ----
+
+thread 'icons::tests::icon_theme_from_cosmic_config' (517335) panicked at src/icons.rs:114:9:
+assertion `left == right` failed
+  left: ""
+ right: "Cosmic"
+
+---- icons::tests::flatpak_style_suffix_matches stdout ----
+
+thread 'icons::tests::flatpak_style_suffix_matches' (517334) panicked at src/icons.rs:73:9:
+assertion `left == right` failed
+  left: None
+ right: Some("app-a")
+
+---- icons::tests::lru_is_bounded stdout ----
+
+thread 'icons::tests::lru_is_bounded' (517337) panicked at src/icons.rs:146:9:
+assertion failed: icons.cache_len() <= 32
+
+---- icons::tests::exact_size_png_found stdout ----
+
+thread 'icons::tests::exact_size_png_found' (517333) panicked at src/icons.rs:79:9:
+assertion `left == right` failed
+  left: None
+ right: Some("/home/alexandre/Projetos/notificacoes/tests/fixtures/icons/Teste/48x48/apps/app-a.png")
+
+---- icons::tests::inherits_then_hicolor stdout ----
+
+thread 'icons::tests::inherits_then_hicolor' (517336) panicked at src/icons.rs:82:9:
+assertion `left == right` failed
+  left: None
+ right: Some("/home/alexandre/Projetos/notificacoes/tests/fixtures/icons/Pai/scalable/apps/app-b.svg")
+
+---- icons::tests::png_is_scaled_to_fit stdout ----
+
+thread 'icons::tests::png_is_scaled_to_fit' (517339) panicked at src/icons.rs:123:91:
+called `Option::unwrap()` on a `None` value
+
+---- icons::tests::svg_rasterized_to_requested_size stdout ----
+
+thread 'icons::tests::svg_rasterized_to_requested_size' (517340) panicked at src/icons.rs:94:114:
+called `Option::unwrap()` on a `None` value
+
+---- icons::tests::symbolic_is_tinted stdout ----
+
+thread 'icons::tests::symbolic_is_tinted' (517341) panicked at src/icons.rs:99:73:
+called `Option::unwrap()` on a `None` value
+
+---- icons::tests::threshold_and_distance_pick_closest stdout ----
+
+thread 'icons::tests::threshold_and_distance_pick_closest' (517342) panicked at src/icons.rs:156:9:
+assertion `left == right` failed
+  left: None
+ right: Some("/tmp/notificacoes-icons-517327-dist/T/16x16/apps/i.png")
+
+
+failures:
+    icons::tests::absolute_path_and_file_uri
+    icons::tests::app_icon_order_and_fallbacks
+    icons::tests::app_name_matches_name_or_wm_class
+    icons::tests::desktop_action_icon_is_ignored
+    icons::tests::desktop_entry_hint_wins
+    icons::tests::exact_size_png_found
+    icons::tests::flatpak_style_suffix_matches
+    icons::tests::icon_theme_from_cosmic_config
+    icons::tests::inherits_then_hicolor
+    icons::tests::lru_is_bounded
+    icons::tests::png_is_scaled_to_fit
+    icons::tests::svg_rasterized_to_requested_size
+    icons::tests::symbolic_is_tinted
+    icons::tests::threshold_and_distance_pick_closest
+
+test result: FAILED. 1 passed; 14 failed; 0 ignored; 0 measured; 102 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--bin notificacoes`

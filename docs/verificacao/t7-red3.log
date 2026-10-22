@@ -1,0 +1,41 @@
+   Compiling notificacoes v0.1.0 (/home/alexandre/Projetos/notificacoes)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.82s
+     Running unittests src/main.rs (target/debug/deps/notificacoes-f9da90c19ec37484)
+
+running 20 tests
+test icons::tests::absolute_path_and_file_uri ... ok
+test icons::tests::desktop_action_icon_is_ignored ... ok
+test icons::tests::desktop_entry_hint_wins ... ok
+test icons::tests::app_name_matches_name_or_wm_class ... ok
+test icons::tests::icon_theme_from_cosmic_config ... ok
+test icons::tests::flatpak_style_suffix_matches ... ok
+test icons::tests::exact_size_png_found ... ok
+test icons::tests::closest_in_user_theme_beats_exact_in_hicolor ... ok
+test icons::tests::svgz_is_refused ... ok
+test icons::tests::png_with_forged_huge_header_is_refused ... ok
+test icons::tests::inherits_then_hicolor ... ok
+test icons::tests::missing_icon_is_none ... ok
+test icons::tests::adam7_png_is_decoded ... FAILED
+test icons::tests::threshold_and_distance_pick_closest ... ok
+test icons::tests::traversal_is_rejected ... ok
+test icons::tests::svg_rasterized_to_requested_size ... ok
+test icons::tests::png_is_scaled_to_fit ... ok
+test icons::tests::symbolic_is_tinted ... ok
+test icons::tests::app_icon_order_and_fallbacks ... ok
+test icons::tests::lru_is_bounded ... ok
+
+failures:
+
+---- icons::tests::adam7_png_is_decoded stdout ----
+
+thread 'icons::tests::adam7_png_is_decoded' (544472) panicked at src/icons.rs:693:36:
+rgba: PNG entrelaçado não decodificou
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    icons::tests::adam7_png_is_decoded
+
+test result: FAILED. 19 passed; 1 failed; 0 ignored; 0 measured; 102 filtered out; finished in 0.10s
+
+error: test failed, to rerun pass `--bin notificacoes`

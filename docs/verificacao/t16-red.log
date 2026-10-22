@@ -1,0 +1,5 @@
+      1 error: could not compile `notificacoes` (bin "notificacoes" test) due to 66 previous errors; 1 warning emitted
+      2 error[E0422]: cannot find struct, variant or union type `PillView` in this scope
+      3 error[E0425]: cannot find function `measure` in this scope
+      8 error[E0425]: cannot find function `pill_view` in this scope
+      7 error[E0425]: cannot find function `render` in this scope

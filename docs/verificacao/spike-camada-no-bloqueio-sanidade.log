@@ -1,0 +1,4 @@
+camada: set_show_on_lock enviado
+camada: camada=Overlay show_on_lock=true segundos=2
+camada: configure (300, 120)
+camada: fim

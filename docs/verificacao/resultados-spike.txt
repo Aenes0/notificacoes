@@ -1,0 +1,15 @@
+grim_captura_overlay = sim
+grim_captura_top = sim
+cosmic_screenshot_captura_overlay = sim
+bloqueio_overlay_sem_protocolo = invisivel
+bloqueio_overlay_com_show_on_lock = pulado_pelo_usuario
+locked_hint_durante_bloqueio = nao
+daemon_fd_tipo = socket
+nome_tomado_do_oficial = sim
+oficial_continua_vivo = sim
+oficial_religado_pega_nome = sim
+painel_reiniciou_ao_matar_oficial = sim
+cosmic_text_rss_kb_antes = 3144
+cosmic_text_rss_kb_depois = 9288
+cosmic_text_ms_fontsystem = 18
+cosmic_text_emoji_colorido = sim

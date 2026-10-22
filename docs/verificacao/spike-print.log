@@ -1,0 +1,3 @@
+camada: camada=Overlay show_on_lock=false segundos=60
+camada: configure (300, 120)
+camada: fim

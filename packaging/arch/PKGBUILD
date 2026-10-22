@@ -1,0 +1,73 @@
+# Maintainer: Alexandre <alexandre.enes1@gmail.com>
+#
+# cosmic-notifications-aenes: daemon de notificações do COSMIC em Rust, substituto do
+# cosmic-notifications oficial. Compila a árvore local (inclusive mudanças não commitadas),
+# sem baixar fontes além das dependências do Cargo.lock.
+#
+# Instalar:  cd packaging/arch && makepkg -f && sudo pacman -U cosmic-notifications-aenes-<versão>-x86_64.pkg.tar.zst   ("s" para remover cosmic-notifications)
+#            kill $(pidof cosmic-notifications)    # a sessão religa o binário novo (e o painel pisca)
+# Voltar ao oficial:
+#   sudo pacman -U /var/cache/pacman/pkg/cosmic-notifications-1:1.10.0-1.1-x86_64_v3.pkg.tar.zst   ("s" para remover cosmic-notifications-aenes)
+#   kill $(pidof cosmic-notifications)           # sem o cache: sudo pacman -S cosmic-notifications
+#
+# Compilado para x86-64-v3, o nível dos pacotes v3 do CachyOS; não usa o target-cpu=native do makepkg.conf.
+#
+# `pkill -x cosmic-notifications` não casa: o nome do processo é cortado em 15 caracteres.
+
+pkgname=cosmic-notifications-aenes
+pkgver=0.2.0
+pkgrel=1
+pkgdesc='COSMIC notification daemon, Rust rewrite (x86-64-v3)'
+arch=(x86_64)
+license=(GPL-3.0-only)
+depends=(dbus systemd-libs glibc gcc-libs pipewire cosmic-sound-theme cosmic-icon-theme noto-fonts noto-fonts-emoji ttf-opensans)
+makedepends=(cargo rsync)
+provides=("cosmic-notifications=1:1.10.0")
+conflicts=(cosmic-notifications)
+options=(!lto !debug)
+
+_repo="$(realpath "$startdir/../..")"
+# Target separado: o RUSTFLAGS=-C target-cpu=native do makepkg invalidaria o cache de dev.
+_target="$_repo/target/makepkg"
+
+prepare() {
+  rm -rf "$srcdir/notificacoes"
+  mkdir -p "$srcdir/notificacoes"
+  rsync -a --delete \
+    --exclude=/.git --exclude=/target --exclude=/tools/spike/target \
+    --exclude=/packaging/arch/src --exclude=/packaging/arch/pkg \
+    --exclude='/packaging/arch/*.pkg.tar.*' \
+    "$_repo/" "$srcdir/notificacoes/"
+  cd "$srcdir/notificacoes"
+
+  cargo fetch --locked
+}
+
+_v3_flags() {
+  export RUSTFLAGS="-C target-cpu=x86-64-v3"
+  CFLAGS="${CFLAGS//-march=native/-march=x86-64-v3}"; CFLAGS="${CFLAGS//-mtune=native/-mtune=generic}"
+  CXXFLAGS="${CXXFLAGS//-march=native/-march=x86-64-v3}"; CXXFLAGS="${CXXFLAGS//-mtune=native/-mtune=generic}"
+  export CFLAGS CXXFLAGS
+  case "$RUSTFLAGS $CFLAGS $CXXFLAGS" in *native*) echo "flags com native: $RUSTFLAGS | $CFLAGS" >&2; return 1 ;; esac
+}
+
+build() {
+  _v3_flags
+  cd "$srcdir/notificacoes"
+  export CARGO_TARGET_DIR="$_target"
+  cargo build --release --frozen
+}
+
+check() {
+  _v3_flags
+  cd "$srcdir/notificacoes"
+  # Crate só binário (sem lib); os testes de tests/dbus.rs precisam de dbus-daemon e ficam fora.
+  CARGO_TARGET_DIR="$_target" cargo test --frozen --bins
+}
+
+package() {
+  cd "$srcdir/notificacoes"
+  install -Dm0755 "$_target/release/notificacoes" "$pkgdir/usr/bin/cosmic-notifications"
+  install -Dm0644 data/config.exemplo "$pkgdir/usr/share/notificacoes/config.exemplo"
+  install -Dm0644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

@@ -1,0 +1,25 @@
+signal time=1792633064.590155 sender=org.freedesktop.DBus -> destination=:1.7101 serial=4294967295 path=/org/freedesktop/DBus; interface=org.freedesktop.DBus; member=NameAcquired
+   string ":1.7101"
+signal time=1792633064.590220 sender=org.freedesktop.DBus -> destination=:1.7101 serial=4294967295 path=/org/freedesktop/DBus; interface=org.freedesktop.DBus; member=NameLost
+   string ":1.7101"
+signal time=1792633447.198413 sender=:1.7098 -> destination=(null destination) serial=12 path=/org/freedesktop/Notifications; interface=org.freedesktop.Notifications; member=ActivationToken
+   uint32 2
+   string "r9xqIaoQUCnTRJKsfHhL8HPlPLPCekrT"
+signal time=1792633447.198447 sender=:1.7098 -> destination=(null destination) serial=13 path=/org/freedesktop/Notifications; interface=org.freedesktop.Notifications; member=ActionInvoked
+   uint32 2
+   string "b"
+signal time=1792633447.198469 sender=:1.7098 -> destination=(null destination) serial=14 path=/org/freedesktop/Notifications; interface=org.freedesktop.Notifications; member=NotificationClosed
+   uint32 2
+   uint32 2
+signal time=1792633481.897401 sender=:1.7098 -> destination=(null destination) serial=19 path=/org/freedesktop/Notifications; interface=org.freedesktop.Notifications; member=NotificationClosed
+   uint32 3
+   uint32 2
+signal time=1792633511.477144 sender=:1.7098 -> destination=(null destination) serial=25 path=/org/freedesktop/Notifications; interface=org.freedesktop.Notifications; member=ActivationToken
+   uint32 4
+   string "52MlEZS69uhyOtPq4vY2B3HvuoGxTxJQ"
+signal time=1792633511.477214 sender=:1.7098 -> destination=(null destination) serial=26 path=/org/freedesktop/Notifications; interface=org.freedesktop.Notifications; member=ActionInvoked
+   uint32 4
+   string "b"
+signal time=1792633511.477250 sender=:1.7098 -> destination=(null destination) serial=27 path=/org/freedesktop/Notifications; interface=org.freedesktop.Notifications; member=NotificationClosed
+   uint32 4
+   uint32 2

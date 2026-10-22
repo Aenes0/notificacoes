@@ -1,0 +1,32 @@
+# Configuração opcional do notificacoes.
+# Copie para ~/.config/notificacoes/config. Formato: chave = valor; "#" comenta.
+# Linha inválida mantém o padrão e gera um aviso no journal. Todas as chaves abaixo
+# estão com o valor padrão.
+
+# Tempo na tela por nível, em milissegundos (500 a 120000).
+duracao_normal_ms = 6000
+duracao_atencao_ms = 10000
+duracao_critico_ms = 15000
+
+# Máximo de cartões visíveis ao mesmo tempo (1 a 8).
+max_visiveis = 4
+
+# Sons de notificação (sim ou nao).
+som = sim
+# Som padrão (nome do tema de sons); vazio = sem som padrão.
+som_padrao = message
+# Som por categoria da notificação; "nao" silencia a categoria.
+som.device.added = device-added
+som.device.removed = device-removed
+som.im.received = message-new-instant
+som.email.arrived = message-new-email
+# Programa que toca o som.
+tocador = pw-play
+
+# Avisos de dispositivos USB (sim ou nao) e quais tipos avisar, separados por espaço:
+# controle armazenamento celular audio teclado mouse generico (lista vazia = nenhum).
+usb = sim
+usb_avisa = controle armazenamento celular audio teclado mouse generico
+
+# Fonte dos cartões; vazio = fonte da interface do COSMIC (ex.: Open Sans).
+fonte =

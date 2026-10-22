@@ -1,0 +1,12 @@
+-rwxr-xr-x 1 alexandre alexandre 2664 21 out 22:59 /home/alexandre/.local/bin/print-recorte
+-rwxr-xr-x 1 alexandre alexandre 1084 20 out 18:03 /home/alexandre/.local/bin/print-recorte.antes-notificacoes
+-rw-r--r-- 1 alexandre alexandre 2664 21 out 22:59 tools/print-recorte
+ok print_recorte_sends_image_notify
+ok print_recorte_editar_runs_satty
+ok print_recorte_default_runs_satty
+ok print_recorte_folder_opens_dir
+ok print_recorte_close_does_nothing
+ok print_recorte_helper_dies_after_deadline
+ok print_recorte_two_captures_independent
+ok print_recorte_editar_without_satty_logs
+exit=0

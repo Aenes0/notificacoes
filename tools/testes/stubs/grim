@@ -1,0 +1,5 @@
+#!/bin/sh
+# último argumento = arquivo de saída; copia o PNG de teste
+for a; do last=$a; done
+echo "grim $*" >> "$STUB_LOG"
+cp "$STUB_PNG" "$last"

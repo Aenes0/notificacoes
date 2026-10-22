@@ -1,0 +1,2 @@
+#!/bin/sh
+echo "satty $*" >> "$STUB_LOG"

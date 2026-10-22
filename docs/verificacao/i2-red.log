@@ -1,0 +1,11 @@
+FALHA print_recorte_sends_image_notify: nenhuma notificação chegou ao daemon
+FALHA print_recorte_editar_runs_satty: grim -g 0,0 800x450 /tmp/tmp.Hcqf6ohreZ/home/Imagens/Screenshots/Captura_2026-10-21_22-56-24.png
+wl-copy --type image/png
+FALHA print_recorte_default_runs_satty: grim -g 0,0 800x450 /tmp/tmp.Hcqf6ohreZ/home/Imagens/Screenshots/Captura_2026-10-21_22-56-29.png
+wl-copy --type image/png
+FALHA print_recorte_folder_opens_dir: grim -g 0,0 800x450 /tmp/tmp.Hcqf6ohreZ/home/Imagens/Screenshots/Captura_2026-10-21_22-56-35.png
+wl-copy --type image/png
+FALHA print_recorte_close_does_nothing: nenhuma notificação
+FALHA print_recorte_helper_dies_after_deadline: nenhuma notificação
+FALHA print_recorte_two_captures_independent: nenhuma notificação
+FALHA print_recorte_editar_without_satty_logs: captura falhou (rc=0)

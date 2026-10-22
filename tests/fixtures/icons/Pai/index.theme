@@ -1,0 +1,15 @@
+[Icon Theme]
+Name=Pai
+Directories=scalable/apps,scalable/status
+
+[scalable/apps]
+Size=48
+MinSize=8
+MaxSize=512
+Type=Scalable
+
+[scalable/status]
+Size=16
+MinSize=8
+MaxSize=512
+Type=Scalable

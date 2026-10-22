@@ -1,0 +1,32 @@
+   Compiling notificacoes v0.1.0 (/home/alexandre/Projetos/notificacoes)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.03s
+     Running unittests src/main.rs (target/debug/deps/notificacoes-f10ed1347a95dda3)
+
+running 11 tests
+test presenter::tests::click_needs_press_and_release_same_hit ... ok
+test presenter::tests::fade_end_wakes_even_with_long_bar_step ... ok
+test presenter::tests::apply_alpha_scales_premultiplied_channels ... ok
+test presenter::tests::leave_cancels_click ... ok
+test presenter::tests::next_wake_is_min_of_deadline_and_bar_step ... ok
+test presenter::tests::hand_cursor_only_over_clickable ... FAILED
+test presenter::tests::no_cards_no_wake ... ok
+test presenter::tests::paused_card_contributes_no_wake ... ok
+test presenter::tests::removing_card_recomputes_margins ... ok
+test presenter::tests::stack_margins_newest_at_bottom ... ok
+test presenter::tests::hit_maps_points_to_regions ... ok
+
+failures:
+
+---- presenter::tests::hand_cursor_only_over_clickable stdout ----
+
+thread 'presenter::tests::hand_cursor_only_over_clickable' (613066) panicked at src/presenter.rs:232:9:
+assertion failed: wants_hand(Format::Card, Some(&Hit::Close))
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    presenter::tests::hand_cursor_only_over_clickable
+
+test result: FAILED. 10 passed; 1 failed; 0 ignored; 0 measured; 166 filtered out; finished in 0.09s
+
+error: test failed, to rerun pass `--bin notificacoes`

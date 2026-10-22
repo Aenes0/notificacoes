@@ -1,0 +1,30 @@
+[package]
+name = "notificacoes"
+version = "0.2.0"
+edition = "2024"
+rust-version = "1.88"
+license = "GPL-3.0-only"
+description = "Daemon de notificações para o COSMIC"
+
+[dependencies]
+cosmic-text = { version = "0.19.0", default-features = false, features = ["std", "swash", "fontconfig"] }
+tiny-skia = { version = "0.11.4", default-features = false, features = ["std", "simd"] }
+libc = "0.2"
+png = "0.18"
+zune-jpeg = { version = "0.5.15", default-features = false, features = ["std", "x86"] }
+rustix = { version = "1.1", default-features = false, features = ["std", "fs", "process"] }
+resvg = { version = "0.45", default-features = false }
+dbus = "0.9.12"
+# Monitor e enumeração de USB (avisos embutidos); o mesmo do logi-osd.
+udev = "0.9.3"
+# Wayland (layer-shell, wl_shm) e o `calloop` reexportado; sem xkbcommon (nada de teclado).
+smithay-client-toolkit = { version = "0.20.0", default-features = false, features = ["calloop"] }
+# zcosmic_toplevel_info_v1 (tela cheia em foco, modo privado). Só o lado cliente; o rev é o já usado no cosmic-greeter.
+cosmic-protocols = { git = "https://github.com/pop-os/cosmic-protocols", rev = "c0cff4db14c37ed954983158e4055aa94c7741d9", default-features = false, features = ["client"] }
+
+[profile.release]
+opt-level = 3
+panic = "abort"
+lto = "thin"
+strip = true
+codegen-units = 1

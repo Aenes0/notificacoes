@@ -1,0 +1,21 @@
+/target
+/tools/spike/target
+/packaging/arch/src/
+/packaging/arch/pkg/
+/packaging/arch/*.pkg.tar.zst
+
+# Prints da tela inteira do usuário (ficam só no disco; mostram conteúdo pessoal)
+/docs/verificacao/cs/
+/docs/verificacao/*-mini.png
+/docs/verificacao/i2-print.png
+/docs/verificacao/spike-cosmic-screenshot.png
+/docs/verificacao/spike-grim-overlay.png
+/docs/verificacao/spike-grim-top.png
+/docs/verificacao/spike-grim-overlay-recorte.png
+/docs/verificacao/spike-grim-top-recorte.png
+/docs/verificacao/t10-hover-1.png
+/docs/verificacao/t10-hover-2.png
+/docs/verificacao/t13-tela-cheia.png
+/docs/verificacao/t13-tela-cheia-2.png
+/docs/verificacao/t13-esq.png
+/docs/verificacao/t9-pilha.png
